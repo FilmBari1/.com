@@ -1,13 +1,28 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-<meta name="google-site-verification" content="-DgG6avdUj7ItyNH0FMZ9cu2y_ZnH0dKz8CGpo-TgkQ" />
-
-    
+    <meta name="google-site-verification" content="-DgG6avdUj7ItyNH0FMZ9cu2y_ZnH0dKz8CGpo-TgkQ" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Muvio Premium</title>
+    <title>FilmBari - Premium Movies & Series</title>
     
+    <!-- SEO Meta Tags for Google and Search Engines -->
+    <meta name="description" content="FilmBari - Watch and download the latest premium movies, web series, Bangla natok, and exclusive videos completely for free. Stay tuned to FilmBari for ultimate entertainment.">
+    <meta name="keywords" content="FilmBari, filmbari, film bari, filmbari premium, filmbari movies, filmbari net, free movies, premium series, bangla natok, dual audio movies, download movies free">
+    <meta name="author" content="FilmBari">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Facebook Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="FilmBari - Premium Movies & Web Series Free">
+    <meta property="og:description" content="Watch and download the latest premium movies, web series, and Bangla natok completely for free on FilmBari.">
+    <meta property="og:image" content="https://i.ibb.co/3pYhT8q/midnight-sonata-couple.png">
+    
+    <!-- Twitter Meta Tags -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="FilmBari - Premium Movies & Web Series Free">
+    <meta property="twitter:description" content="Watch and download the latest premium movies, web series, and Bangla natok completely for free on FilmBari.">
+
     <!-- Ads format 1: Monetag Multitag (All-In-One Tag) -->
     <script src="https://quge5.com/88/tag.min.js" data-zone="247275" async data-cfasync="false"></script>
     
@@ -419,6 +434,20 @@
             display: none;
         }
 
+        /* Search Results Panel - display: none by default */
+        .search-results-section {
+            display: none;
+            margin-bottom: 30px;
+        }
+        .search-results-section.active {
+            display: block; /* Shown only when search query is active */
+        }
+        .search-results-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
         /* Premium Movie Cards with locked widths and glowing side effects */
         .video-card {
             flex: 0 0 160px; 
@@ -610,18 +639,10 @@
             margin-bottom: 8px;
         }
 
-        /* Search Results Panel - display: none by default */
-        .search-results-section {
-            display: none;
-            margin-bottom: 30px;
-        }
-        .search-results-section.active {
-            display: block; /* Shown only when search query is active */
-        }
-        .search-results-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+        /* Attention/Welcome Modal Popup */
+        #attentionModal .modal-content {
+            box-shadow: 0 10px 30px rgba(138, 43, 226, 0.5), 0 0 20px rgba(229, 184, 66, 0.3);
+            border: 1px solid var(--primary-gold);
         }
 
         @media (max-width: 768px) {
@@ -640,7 +661,7 @@
         <header class="top-header">
             <div class="logo-container">
                 <div class="logo-text">
-                    <span class="logo-main" id="logo-main-text">MUVIO</span>
+                    <span class="logo-main" id="logo-main-text">FILMBARI</span>
                     <span class="logo-sub" id="logo-sub-text">PREMIUM</span>
                 </div>
                 <div class="logo-badge" id="logo-badge-container">
@@ -664,9 +685,10 @@
         <!-- Carousel Dots -->
         <div class="carousel-dots" id="carousel-dots"></div>
 
-        <!-- Control Panel (Now Sticky right below the top header on scroll) -->
+        <!-- Control Panel (Sticks right below the top header on scroll) -->
         <div class="control-panel">
-            <button class="control-btn ctrl-adult" id="adult-toggle-btn" onclick="toggleAdultMode()">
+            <!-- Event propagation stopped on the button element to block popunder click listeners -->
+            <button class="control-btn ctrl-adult" id="adult-toggle-btn" onclick="toggleAdultMode(event)">
                 <span id="adult-label">18+ Adult</span>
                 <span class="adult-toggle"></span>
             </button>
@@ -695,7 +717,7 @@
             <div id="dynamic-categories-container"></div>
         </div>
 
-        <footer>© 2026 Muvio Premium - All Rights Reserved</footer>
+        <footer>© 2026 FilmBari - All Rights Reserved</footer>
     </div>
 
     <!-- Help Modal (How to Download Instruction Popup) -->
@@ -711,7 +733,7 @@
         </div>
     </div>
 
-    <!-- Attention/Welcome Modal Popup -->
+    <!-- Attention/Welcome Modal Popup (With custom dynamic Telegram Button) -->
     <div id="attentionModal" class="modal" style="display: none;">
         <div class="modal-content" style="max-width: 450px;">
             <div class="modal-header">
@@ -747,7 +769,7 @@
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
     
-    // ১. ডাইরেক্ট লিংক কনফিগারেশন (মোনিটেগ ডাইরেক্ট অ্যাড লিংক)
+    // ডাইরেক্ট লিংক কনফিগারেশন (মোনিটেগ ডাইরেক্ট অ্যাড লিংক)
     const directLink = "https://omg10.com/4/11115518"; // থাম্বনেইলে চাপ দিলে এই ডাইরেক্ট লিংক ওপেন হবে
     const highCpmAdLink = "https://omg10.com/4/11115512"; // আনলক বাটন ট্র্রিগারের জন্য হাই-সিপিএম লিংক
     
@@ -816,7 +838,7 @@
             promoBox.innerHTML = `<p><i class="fa-solid fa-share-nodes" style="color: var(--primary-gold); margin-right: 4px;"></i> আমাদের ওয়েবসাইটটি আপনার বন্ধুদের সাথে শেয়ার করুন, যাতে তারাও সব প্রিমিয়াম মুভি ও ভিডিও সম্পূর্ণ ফ্রিতে উপভোগ করতে পারে!</p>`;
             modalTitle.innerHTML = `<i class="fa-solid fa-download"></i> ডাউনলোডের নিয়মাবলী`;
             modalBody.innerHTML = `
-                <p>Muvio Premium থেকে যেকোনো ভিডিও দেখা অথবা ডাউনলোড করার সহজ পদ্ধতি:</p>
+                <p>FilmBari থেকে যেকোনো ভিডিও দেখা অথবা ডাউনলোড করার সহজ পদ্ধতি:</p>
                 <ol>
                     <li>প্রথমে আপনি যে ভিডিওটি দেখতে চান সেটির কার্ডে যান।</li>
                     <li>কার্ডের নিচে থাকা <b>Unlock Ads</b> বাটনে ক্লিক করুন।</li>
@@ -843,7 +865,7 @@
             promoBox.innerHTML = `<p><i class="fa-solid fa-share-nodes" style="color: var(--primary-gold); margin-right: 4px;"></i> Share our website with your friends so they can also enjoy premium movies & videos completely for free!</p>`;
             modalTitle.innerHTML = `<i class="fa-solid fa-download"></i> Instructions Guide`;
             modalBody.innerHTML = `
-                <p>Easy way to watch or download any video from Muvio Premium:</p>
+                <p>Easy way to watch or download any video from FilmBari:</p>
                 <ol>
                     <li>First, go to the card of the video you want to watch.</li>
                     <li>Click on the <b>Unlock Ads</b> button at the bottom of the card.</li>
@@ -866,7 +888,7 @@
         }
     }
 
-    // ৪. ডাটাবেজ থেকে রিয়েল-টাইম কনফিগারেশন রিড
+    // ৩. ডাটাবেজ থেকে রিয়েল-টাইম কনফিগারেশন রিড
     onValue(ref(db, 'settings/telegramLink'), (s) => {
         if (s.exists()) {
             subLink = s.val();
@@ -878,6 +900,7 @@
         }
     });
 
+    // ভিডিও ডেটা রিড করার প্রসেস ও ডিপ-লিংকিং হ্যান্ডলার
     onValue(ref(db, 'content/videos'), (snapshot) => {
         const data = snapshot.val();
         if (data) {
@@ -924,9 +947,9 @@
         
         let shareText = "";
         if (activeLang === 'bn') {
-            shareText = `🎥 Muvio Premium - "${title}" সম্পূর্ণ ফ্রিতে এখনই দেখুন!\nএখানে চাপুন: ${shareUrl}`;
+            shareText = `🎥 FilmBari - "${title}" সম্পূর্ণ ফ্রিতে এখনই দেখুন!\nএখানে চাপুন: ${shareUrl}`;
         } else {
-            shareText = `🎥 Muvio Premium - Watch "${title}" Completely Free!\nClick here: ${shareUrl}`;
+            shareText = `🎥 FilmBari - Watch "${title}" Completely Free!\nClick here: ${shareUrl}`;
         }
 
         if (navigator.share) {
@@ -971,7 +994,7 @@
             logoBadge.style.borderColor = "#ff3d71";
             logoBadge.style.boxShadow = "0 4px 12px rgba(255, 61, 113, 0.4)";
         } else {
-            logoMain.innerText = "MUVIO";
+            logoMain.innerText = "FILMBARI";
             logoMain.style.color = "var(--primary-gold)";
             logoSub.innerText = "PREMIUM";
             logoSub.style.color = "var(--text-light)";
@@ -981,7 +1004,7 @@
         }
     }
 
-    // আপনি ডাটাবেজের ক্যাটাগরিতে যা লিখবেন হুবহু তাই থাকবে (শুধু প্রথম অক্ষর ক্যাপিটাল হবে, অটো-স্পেলিং নরমালাইজেশন সম্পূর্ণ বাদ দেওয়া হয়েছে)
+    // আপনি ডাটাবেজের ক্যাটাগরিতে যা লিখবেন হুবহু তাই থাকবে (শুধু প্রথম অক্ষর ক্যাপিটাল হবে)
     function formatCategoryName(rawName) {
         if (!rawName) return 'General';
         const trimmed = rawName.trim();
@@ -1002,7 +1025,7 @@
         return num + ' Views';
     }
 
-    // ৫. ১০০% ডায়নামিক রেন্ডারিং লজিক (ক্যাটাগরি বাড়ালে/কমালে অটোমেটিক অ্যাড ও রিমুভ হবে)
+    // ৪. ১০০% ডায়নামিক রেন্ডারিং লজিক (ক্যাটাগরি বাড়ালে/কমালে অটোমেটিক অ্যাড ও রিমুভ হবে)
     function renderAllContent() {
         updateLogoBranding(); // আপডেট লোগো ব্র্যান্ডিং
 
@@ -1081,7 +1104,7 @@
                 const formattedViews = formatViews(v.views);
                 rowHTML += `
                     <div class="video-card" id="card-${v.key}">
-                        <!-- ছবিতে চাপ দিলে শুধুমাত্র ডিরেক্ট লিংক ওপেন হবে, ভিউ কাউন্ট হবে না -->
+                        <!-- ছবিতে চাপ দিলে ডাইরেক্ট লিংক ওপেন হবে, ভিউ কাউন্ট হবে না -->
                         <div class="poster-container" onclick="openDirectLink()">
                             <img src="${v.thumb}" alt="${v.title}">
                         </div>
@@ -1116,7 +1139,7 @@
                         <div class="banner-overlay">
                             <div class="banner-info">
                                 <div class="banner-tag">🔥 Trending Now</div>
-                                <div class="banner-title">${v.title || 'Muvio Premium'}</div>
+                                <div class="banner-title">${v.title || 'FilmBari'}</div>
                             </div>
                             <button class="banner-btn" onclick="scrollToCard('${v.key}')">
                                 <i class="fa-solid fa-play"></i> Watch Now
@@ -1133,7 +1156,7 @@
         }
     }
 
-    // ৬. ব্যানার অটোমেটিক স্লাইড সাইকেল
+    // ৫. ব্যানার অটোমেটিক স্লাইড সাইকেল
     let autoSlideInterval;
     function startBannerAutoCycle() {
         if (autoSlideInterval) clearInterval(autoSlideInterval);
@@ -1154,7 +1177,7 @@
         }, 4000);
     }
 
-    // ৭. ব্যানার Watch Now ক্লিক স্ক্রোল ও হাইলাইট
+    // ৪. ব্যানার Watch Now ক্লিক স্ক্রোল ও হাইলাইট
     window.scrollToCard = (key) => {
         const targetCard = document.getElementById('card-' + key);
         if (targetCard) {
@@ -1167,7 +1190,7 @@
         }
     };
 
-    // ৮. রিয়েল-টাইম সার্চ লজিক
+    // ৫. রিয়েল-টাইম সার্চ লজিক
     window.handleSearch = (query) => {
         const searchResultsSection = document.getElementById('search-results-section');
         const searchResultsGrid = document.getElementById('search-results-grid');
@@ -1232,7 +1255,7 @@
         }
     };
 
-    // ৯. সার্চ বার টগল করা
+    // ৬. সার্চ বার টগল করা
     window.toggleSearchBar = () => {
         const searchBar = document.getElementById('search-bar-container');
         searchBar.classList.toggle('active');
@@ -1254,7 +1277,7 @@
         }
     };
 
-    // ১০. টেলিগ্রাম ট্র্যাকিং
+    // ७. টেলিগ্রাম ট্র্যাকিং
     window.handleTelegramClick = () => {
         const today = getLocalDateString();
         const updates = {};
@@ -1262,7 +1285,7 @@
         update(ref(db), updates);
     };
 
-    // ১১. ভিউ ট্র্যাকিং ফাংশন (যা শুধুমাত্র Unlock Ads বাটনে চাপ দিলে ফায়ার হবে)
+    // ৮. ভিউ ট্র্যাকিং ফাংশন (যা শুধুমাত্র Unlock Ads বাটনে চাপ দিলে ফায়ার হবে)
     window.trackView = (key) => {
         const today = getLocalDateString();
         const updates = {};
@@ -1271,7 +1294,7 @@
         update(ref(db), updates);
     };
 
-    // ১২. অ্যাড প্রসেসিং ও ভিউ কাউন্টিং লজিক
+    // ৯. অ্যাড প্রসেসিং ও ভিউ কাউন্টিং লজিক
     window.startAdProcess = (key, videoUrl) => {
         const btn = document.getElementById('btn-' + key);
         const openBtn = document.getElementById('open-' + key);
@@ -1305,8 +1328,11 @@
         setTimeout(() => { window.location.href = videoUrl; }, 800);
     };
 
-    // ১৩. 18+ মোড টগল
-    window.toggleAdultMode = () => {
+    // ১০. 18+ মোড টগল (বিজ্ঞাপন ফায়ারিং বন্ধের জন্য ইভেন্ট প্রপাগেশন লক করা হয়েছে)
+    window.toggleAdultMode = (e) => {
+        if (e) {
+            e.stopPropagation(); // Onclick (Popunder) বিজ্ঞাপনের ফায়ারিং বন্ধ করার জন্য ইভেন্ট প্রপাগেশন লক করা হয়েছে
+        }
         isAdultMode = !isAdultMode;
         localStorage.setItem('isAdultMode', isAdultMode ? 'true' : 'false');
         
@@ -1321,7 +1347,7 @@
         renderAllContent();
     };
 
-    // ১৪. গাইড মডাল কন্ট্রোল
+    // ১১. গাইড মডাল কন্ট্রোল
     window.openDownloadModal = () => {
         document.getElementById('helpModal').style.display = 'flex';
     };
@@ -1329,7 +1355,7 @@
         document.getElementById('helpModal').style.display = 'none';
     };
 
-    // ১৫. স্বাগতম ও প্রমোশনাল পপআপ মডাল বন্ধের লজিক
+    // ১২. স্বাগতম ও প্রমোশনাল পপআপ মডাল বন্ধের লজিক
     window.closeAttentionModal = () => {
         const attModal = document.getElementById('attentionModal');
         if (attModal) attModal.style.display = 'none';
